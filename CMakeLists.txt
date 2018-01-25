@@ -6,6 +6,7 @@ include_directories(include)
 set(SOURCES 
 src/main.cpp 
 src/matrix.cpp
+src/vector.cpp
 )
 
 add_executable(heat_equation ${SOURCES})
