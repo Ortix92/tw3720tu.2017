@@ -5,7 +5,6 @@ include_directories(include)
 
 set(SOURCES 
 src/main.cpp 
-src/matrix.cpp
 )
 
 add_executable(heat_equation ${SOURCES})
@@ -13,5 +12,6 @@ add_executable(heat_equation ${SOURCES})
 # uncomment for more sp33dZ
 #set(CMAKE_CXX_FLAGS "-O3")
 
-# Define C++11 standard
-set_property(TARGET heat_equation PROPERTY CXX_STANDARD 11)
+# Define C++14 standard
+set_property(TARGET heat_equation PROPERTY CXX_STANDARD 14)
+
