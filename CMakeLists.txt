@@ -4,8 +4,7 @@ project(heat_equation VERSION 0.0.1)
 include_directories(include)
 
 set(SOURCES 
-src/main.cpp 
-src/vector.cpp
+src/main.cpp
 )
 
 add_executable(heat_equation ${SOURCES})
