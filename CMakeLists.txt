@@ -10,6 +10,7 @@ src/main.cpp
 add_executable(heat_equation ${SOURCES})
 
 # uncomment for more sp33dZ
+set(CMAKE_BUILD_TYPE Debug)
 #set(CMAKE_CXX_FLAGS "-O3")
 
 # Define C++14 standard

@@ -1,25 +1,29 @@
-template<typename T>
-int cg(const Matrix<T> &A, const Vector<T> &b, Vector<T> &x, T tol, int maxiter)
+#pragma once
+#include <matrix.h>
+template <typename T>
+int cg(const Matrix<T> &A, const Vector<T> &b, Vector<T> &x, T tol, int maxiter) //TODO: Check for specific values/conditions
 {
-	T alpha;
-	T beta;
-	Vector<T> x_k = x;
-	Vector<T> r_k = b - A.matvec(x);
-	Vector<T> p_k = r_k;
-	for (int k = 0; k < maxiter; k++) {
-		alpha = dot(r_k, r_k) / dot(p_k, A.matvec(p_k));
-		x = x_k + alpha*p_k;
-		Vector<T> r_new = r_k - alpha*A.matvec(p_k);
-		// Check threshold
-		if (dot(r_new, r_new) < tol*tol) {
-			return k;
-		}
-		// re-init
-		beta = (dot(r_new, r_new)) / dot(r_k, r_k);
-		p_k = r_new + beta*p_k;
-		x_k = x;
-		r_k = r_new;
-	}
-	int k = -1;
-	return k;
+
+  Vector<T> p(maxiter);
+  Vector<T> r_k(maxiter);
+  Vector<T> r_k1(maxiter);
+
+  p = b - A.matvec(x);
+  r_k = b - A.matvec(x);
+
+  //for k = 0, 1, ..., maxiter-1
+  for (auto k = 0; k < maxiter; k++)
+  {
+    auto alpha = dot(r_k, r_k) / dot(p, A.matvec(p));
+    x = x + p * alpha;
+    r_k1 = r_k - A.matvec(p) * alpha;
+    if (dot(r_k1, r_k1) < (tol * tol))
+    {
+      return k;
+    }
+    auto beta = dot(r_k1, r_k1) / dot(r_k, r_k);
+    p = r_k1 + p * beta;
+    r_k = r_k1;
+  }
+  return -1;
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <memory>
@@ -10,12 +11,12 @@ class Vector
 public:
   // probably should be private
   T *data;
-  size_t length;
+  int length;
 
   Vector() : data(nullptr), length(0) {}
 
   // size constructor
-  Vector(std::size_t size) : data(new T[size]), length(size) {}
+  Vector(int size) : data(new T[size]), length(size) {}
 
   // copy constructor
   Vector(const Vector &other) : Vector(other.length)
@@ -33,14 +34,10 @@ public:
     std::uninitialized_copy(list.begin(), list.end(), this->data);
   }
 
-  // Destructor
-  ~Vector()
+  auto size() const
   {
-    delete[] data;
-    length = 0;
-    data = nullptr;
+    return length;
   }
-
   // Copy assignment operator
   Vector<T> &operator=(const Vector<T> &other)
   {
@@ -59,22 +56,20 @@ public:
   }
 
   // Move assignment operator
-  Vector<T> &operator=(Vector<T> &&other)
-  {
-    if (this != &other)
-    {
-      delete[] data;
-      length = other.length; //OR USE SWAP FUNCTIONS?
-      data = other.data;
-      other.data = nullptr;
-      other.length = 0;
-    }
-    //std::cout << "Move assignment. Data from incoming is moved to current. Incoming data is deleted" << std::endl;
-    return *this;
-  };
+	Vector& operator=(Vector&& other) {
+		if (this != &other)
+		{
+			delete[] data;
+			data = other.data;
+			length = other.length;	other.data = nullptr;
+			length = other.length;	other.length = 0;
+		}
+		return *this;
+	}
+
 
   template <typename U>
-  auto operator+(const Vector<U> &other)
+  auto operator+(const Vector<U> &other) const
   {
     Vector<typename std::common_type<T, U>::type> v2(length);
     if (length != other.length)
@@ -89,7 +84,7 @@ public:
     return v2;
   }
   template <typename U>
-  auto operator-(const Vector<U> &other)
+  auto operator-(const Vector<U> &other) const
   {
     Vector<typename std::common_type<T, U>::type> v2(length);
     if (length != other.length)
