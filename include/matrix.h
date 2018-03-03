@@ -6,6 +6,7 @@
 template <typename T>
 class Matrix
 {
+private:
   int rows;
   int cols;
 
@@ -24,11 +25,11 @@ public:
   }
   T &operator[](key_type key)
   {
-    // if (key[0] > this->rows - 1 || key[1] > this->cols - 1)
-    // {
-    //   std::cout << "Can not change shape of matrix" << std::endl;
-    //   exit(EXIT_FAILURE);
-    // }
+    if (key[0] > this->rows - 1 || key[1] > this->cols - 1)
+    {
+      std::cout << "Can not change shape of matrix" << std::endl;
+      exit(EXIT_FAILURE);
+    }
     return data[key];
   }
 
